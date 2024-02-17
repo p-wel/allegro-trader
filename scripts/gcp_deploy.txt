@@ -1,0 +1,2 @@
+> cd allegro-trader/target
+> gcloud app deploy allegro-trader-0.0.1-SNAPSHOT.jar
