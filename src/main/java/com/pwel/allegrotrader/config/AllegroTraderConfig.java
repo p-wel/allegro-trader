@@ -113,20 +113,20 @@ public class AllegroTraderConfig {
                     Status.ACTIVE
             );
 
-            productRepository.saveAll(
-                    List.of(szybaPrzedniaToyota, filtrPaliwaToyota, drzwiFord, lusterkoVolkswagen)
-            );
-
-            offerDraftRepository.saveAll(
-                    List.of(draft1, draft2, draft3, draft4)
-            );
-
-            searchRepository.saveAll(
-                    List.of(toyota, ford, mercedes)
-            );
-            publishedOfferRepository.saveAll(
-                    List.of(publishedOffer1)
-            );
+//            productRepository.saveAll(
+//                    List.of(szybaPrzedniaToyota, filtrPaliwaToyota, drzwiFord, lusterkoVolkswagen)
+//            );
+//
+//            offerDraftRepository.saveAll(
+//                    List.of(draft1, draft2, draft3, draft4)
+//            );
+//
+//            searchRepository.saveAll(
+//                    List.of(toyota, ford, mercedes)
+//            );
+//            publishedOfferRepository.saveAll(
+//                    List.of(publishedOffer1)
+//            );
         };
     }
 }
