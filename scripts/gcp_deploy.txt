@@ -1,0 +1,4 @@
+# Build app and deploy it to GCP (gcloud login required)
+> ./mvnw clean install
+> cd allegro-trader/target
+> gcloud app deploy allegro-trader-0.0.1-SNAPSHOT.jar

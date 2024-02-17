@@ -26,18 +26,12 @@ public class PublishedOffer {
             generator = "published_offer_sequence"
     )
     private Long id;
-    @Nullable
-    private Long allegroId;
-    @Nullable
-    private Long productId;
-    @Nullable
-    private String title;
-    @Nullable
-    private String description;
-    @Nullable
-    private BigDecimal price;
-    @Nullable
-    private Status status;
+    @Nullable private Long allegroId;
+    @Nullable private Long productId;
+    @Nullable private String title;
+    @Nullable private String description;
+    @Nullable private BigDecimal price;
+    @Nullable private Status status;
 
     public PublishedOffer(Long allegroId, Long productId, String title, String description, BigDecimal price, Status status) {
         this.allegroId = allegroId;
