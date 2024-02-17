@@ -60,17 +60,16 @@ class AllegroRestClientTest {
         assert response.getStatusCode() == HttpStatus.OK;
     }
 
-/*
-    pass 'tenSecondsCode' code and run
- */
 
-//    @Test
-//    void testGenerateBearerToken() {
-//        String tenSecondsCode = "";
-//        String bearerToken = allegroRestClient.generateBearerToken(tenSecondsCode);
-//        log.info(bearerToken);
-//        assert !bearerToken.isEmpty();
-//    }
+
+//    "pass 'tenSecondsCode' code and run"
+    @Test
+    void testGenerateBearerToken() {
+        var tenSecondsCode = "";
+        String bearerToken = allegroRestClient.generateBearerToken(tenSecondsCode);
+        log.info(bearerToken);
+        assert !bearerToken.isEmpty();
+    }
 
     @Test
     void testPublishOffer() {

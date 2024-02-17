@@ -46,8 +46,7 @@ class AllegroInterfaceTest {
                 1000.99,
                 offersLimit
         );
-        var searchResults =
-                allegroInterface.searchByParams(requestParams);
+        var searchResults = allegroInterface.searchByParams(requestParams);
         assert !searchResults.isEmpty();
         assert !searchResults.get(0).getAllegroOfferName().isEmpty();
         assert searchResults.size() == offersLimit;
@@ -55,8 +54,7 @@ class AllegroInterfaceTest {
 
     @Test
     void testMapFromAllegroRestResponse() {
-        var categoryList =
-                allegroInterface.getMainCategories();
+        var categoryList = allegroInterface.getMainCategories();
         assert !categoryList.isEmpty();
         assert Objects.equals(categoryList.get(0).getName(), "Dom i Ogród");
     }
@@ -73,8 +71,7 @@ class AllegroInterfaceTest {
                 10
         );
 
-        var response =
-                allegroInterface.publishOffer(publishOfferDto, BEARER_TOKEN_HARDCODED);
+        var response = allegroInterface.publishOffer(publishOfferDto, BEARER_TOKEN_HARDCODED);
         assert response.getStatusCode() == HttpStatus.ACCEPTED;
     }
 }
