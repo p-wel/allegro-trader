@@ -27,12 +27,9 @@ public class Product {
     )
     private Long id;
     private String name;
-    @Nullable
-    private String category;
-    @Nullable
-    private String image;
-    @Nullable
-    private LocalDate dateOfCreation;
+    @Nullable private String category;
+    @Nullable private String image;
+    @Nullable private LocalDate dateOfCreation;
 
     public Product(String name, String category, String image) {
         this.name = name;

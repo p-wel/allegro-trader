@@ -1,0 +1,21 @@
+-- delete.sql
+
+-- PRODUCT
+DELETE FROM product
+WHERE id = 1
+RETURNING *;
+
+-- OFFER DRAFT
+DELETE FROM offer_draft
+WHERE id = 1
+RETURNING *;
+
+-- PUBLISHED OFFER
+DELETE FROM published_offer
+WHERE id = 1
+RETURNING *;
+
+-- SEARCH CRITERIA
+DELETE FROM search_criteria
+WHERE id = 1
+RETURNING *;
