@@ -1,0 +1,14 @@
+### Get Products
+GET http://localhost:8080/api/v1/products
+
+### Add new Product
+POST http://localhost:8080/api/v1/products/add
+Content-Type: application/json
+
+{
+  "id": "123",
+  "name": "qweqweqwe",
+  "category": "asd",
+  "image": "nuqwell",
+  "dateOfCreation": "2023-01-02"
+}
