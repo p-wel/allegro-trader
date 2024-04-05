@@ -1,9 +1,10 @@
 package com.pwel.allegrotrader.allegro;
 
-import com.pwel.allegrotrader.allegro.dto.Currency;
-import com.pwel.allegrotrader.allegro.dto.ProductDto;
-import com.pwel.allegrotrader.allegro.dto.PublishOfferDto;
-import com.pwel.allegrotrader.allegro.dto.SearchCriteriaDto;
+import com.pwel.allegrotrader.deprecated.AllegroInterface;
+import com.pwel.allegrotrader.deprecated.dto.Currency;
+import com.pwel.allegrotrader.deprecated.dto.ProductDto;
+import com.pwel.allegrotrader.deprecated.dto.PublishOfferDto;
+import com.pwel.allegrotrader.deprecated.dto.SearchCriteriaDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
