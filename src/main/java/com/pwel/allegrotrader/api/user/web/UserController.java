@@ -1,6 +1,6 @@
 package com.pwel.allegrotrader.api.user.web;
 
-import com.pwel.allegrotrader.deprecated.AllegroRestClient;
+//import com.pwel.allegrotrader.deprecated.AllegroRestClient;
 import com.pwel.allegrotrader.api.user.domain.UserService;
 import com.pwel.allegrotrader.api.user.domain.User;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
-    private AllegroRestClient allegroRestClient;
+//    private AllegroRestClient allegroRestClient;
 
     @GetMapping()
     public List<User> getUsers() {
@@ -29,11 +29,11 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @GetMapping("authenticate")
-    public void authenticate(@RequestParam String code) {
-        if (!code.isEmpty()) {
-            String bearerToken = allegroRestClient.generateBearerToken(code);
-        }
-        userService.getUserById(1L);
-    }
+//    @GetMapping("authenticate")
+//    public void authenticate(@RequestParam String code) {
+//        if (!code.isEmpty()) {
+//            String bearerToken = allegroRestClient.generateBearerToken(code);
+//        }
+//        userService.getUserById(1L);
+//    }
 }

@@ -1,4 +1,4 @@
-package com.pwel.allegrotrader.allegro.ouath;
+package com.pwel.allegrotrader.allegro.config.ouath;
 
 // TODO
 public class OAuth2AccessToken {

@@ -4,6 +4,6 @@ import lombok.Builder;
 
 @Builder
 public record CategoryDto(
-        int id,
+        String id,
         String name
 ) {}

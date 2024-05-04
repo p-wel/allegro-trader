@@ -1,6 +1,6 @@
 package com.pwel.allegrotrader.allegro;
 
-import com.pwel.allegrotrader.deprecated.AllegroInterface;
+import com.pwel.allegrotrader.deprecated.AllegroInterfaceDeprecated;
 import com.pwel.allegrotrader.deprecated.dto.Currency;
 import com.pwel.allegrotrader.deprecated.dto.ProductDto;
 import com.pwel.allegrotrader.deprecated.dto.PublishOfferDto;
@@ -15,15 +15,15 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 @SpringBootTest
-class AllegroInterfaceTest {
+class AllegroInterfaceDeprecatedTest {
 
     @Autowired
-    private AllegroInterface allegroInterface;
+    private AllegroInterfaceDeprecated allegroInterfaceDeprecated;
     private @Value("${bearer.hardcoded}") String BEARER_TOKEN_HARDCODED;
 
     @Test
     void testGetSubCategories() {
-        var categoryList = allegroInterface.getSubCategories(1);
+        var categoryList = allegroInterfaceDeprecated.getSubCategories(1);
         assert !categoryList.isEmpty();
         assert Objects.equals(categoryList.get(0).getName(), "Płyty kompaktowe");
     }
@@ -31,7 +31,7 @@ class AllegroInterfaceTest {
     @Test
     void testGetMatchingCategories() {
         ProductDto productDto = new ProductDto("logitech");
-        var matchingCategoryList = allegroInterface.getMatchingCategories(productDto);
+        var matchingCategoryList = allegroInterfaceDeprecated.getMatchingCategories(productDto);
         assert !matchingCategoryList.isEmpty();
         assert matchingCategoryList.get(0).getId() == 314093;
         assert Objects.equals(matchingCategoryList.get(0).getName(), "Etui i pokrowce na słuchawki");
@@ -47,7 +47,7 @@ class AllegroInterfaceTest {
                 1000.99,
                 offersLimit
         );
-        var searchResults = allegroInterface.searchByParams(requestParams);
+        var searchResults = allegroInterfaceDeprecated.searchByParams(requestParams);
         assert !searchResults.isEmpty();
         assert !searchResults.get(0).getAllegroOfferName().isEmpty();
         assert searchResults.size() == offersLimit;
@@ -55,7 +55,7 @@ class AllegroInterfaceTest {
 
     @Test
     void testMapFromAllegroRestResponse() {
-        var categoryList = allegroInterface.getMainCategories();
+        var categoryList = allegroInterfaceDeprecated.getMainCategories();
         assert !categoryList.isEmpty();
         assert Objects.equals(categoryList.get(0).getName(), "Dom i Ogród");
     }
@@ -72,7 +72,7 @@ class AllegroInterfaceTest {
                 10
         );
 
-        var response = allegroInterface.publishOffer(publishOfferDto, BEARER_TOKEN_HARDCODED);
+        var response = allegroInterfaceDeprecated.publishOffer(publishOfferDto, BEARER_TOKEN_HARDCODED);
         assert response.getStatusCode() == HttpStatus.ACCEPTED;
     }
 }

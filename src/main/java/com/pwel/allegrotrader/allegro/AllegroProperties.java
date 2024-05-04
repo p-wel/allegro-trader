@@ -6,11 +6,15 @@ import jakarta.validation.constraints.NotBlank;
 
 @Validated
 @ConfigurationProperties("allegro")
-record AllegroProperties(
-         @NotBlank String hostWebsite,
-         @NotBlank String hostApi,
-         @NotBlank String mainCategoriesPath,
-         @NotBlank String allegroHeadersV1
+public record AllegroProperties(
+         @NotBlank String urlWebsite,
+         @NotBlank String urlApi,
+         @NotBlank String clientId,
+         @NotBlank String clientSecret,
+
+         @NotBlank String allegroContentType,
+
+         @NotBlank String mainCategoriesPath
 ) {
 
 }

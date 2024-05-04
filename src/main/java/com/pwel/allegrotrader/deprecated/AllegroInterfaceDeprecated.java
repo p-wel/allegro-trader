@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public interface AllegroInterface {
+public interface AllegroInterfaceDeprecated {
 
     List<CategoryDto> getMainCategories();
 

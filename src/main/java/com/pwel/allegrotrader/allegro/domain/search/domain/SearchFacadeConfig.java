@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 class SearchFacadeConfig {
 
     @Bean
-    SearchFacade searchFacade(AllegroClient allegroClient) {
-        return new SearchFacade(allegroClient);
+    SearchFacadeAdapter searchFacade(AllegroClient allegroClient) {
+        return new SearchFacadeAdapter(allegroClient);
     }
 }

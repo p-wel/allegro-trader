@@ -10,5 +10,4 @@ public class SearchCriteriaRequest {
     double priceFrom;
     double priceTo;
     int offersLimit;
-
 }

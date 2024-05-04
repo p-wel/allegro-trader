@@ -15,7 +15,7 @@ import java.util.List;
 @CrossOrigin
 @AllArgsConstructor
 @RequestMapping("api/v1/finder")
-public class FinderController {
+public class FinderApiController {
 
     private final SearchService searchService;
 

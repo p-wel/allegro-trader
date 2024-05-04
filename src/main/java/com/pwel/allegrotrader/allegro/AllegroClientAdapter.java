@@ -1,91 +1,61 @@
 package com.pwel.allegrotrader.allegro;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pwel.allegrotrader.allegro.authorization.AllegroOAuth2Client;
 import com.pwel.allegrotrader.allegro.exception.AllegroClientException;
 import com.pwel.allegrotrader.allegro.exception.AllegroMappingException;
-import com.pwel.allegrotrader.allegro.domain.search.domain.response.AllegroMainCategoriesResponse;
+import com.pwel.allegrotrader.allegro.domain.search.domain.response.CategoryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
 public class AllegroClientAdapter implements AllegroClient {
 
-    // TODO: move to AllegroProperties
-    private static final String CLIENT_ID = "";
-    private static final String CLIENT_SECRET = "";
-    private static final String ALLEGRO_SITE_URL = "";
-    private static final String HEADERS_V1 = "";
-
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
-
     private final AllegroProperties allegroProperties;
+    private final AllegroOAuth2Client allegroOAuth2Client;
 
     @Override
-    public List<AllegroMainCategoriesResponse> getMainCategories() {
-        String uri = buildCategoriesUri();
-        return executeGet(uri, null, new TypeReference<>() {});
+    public List<CategoryResponse> getMainCategories() {
+        var bearerAuth = allegroOAuth2Client.getClientCredentials();
+        var uri = buildCategoriesUri();
+        return executeGet(uri, Map.of(), new TypeReference<>() {}, bearerAuth);
     }
 
     private String buildCategoriesUri() {
-        return UriComponentsBuilder.fromHttpUrl(allegroProperties.hostApi())
+        return UriComponentsBuilder.fromHttpUrl(allegroProperties.urlApi())
                 .path(allegroProperties.mainCategoriesPath())
                 .build()
                 .toUriString();
     }
 
-    private <T> T executeGet(String uri, Map<String, String> uriVariables, TypeReference<T> returnedType) {
-        var entityWithHeaders = setHeaders();
+    private <T> T executeGet(String uri, Map<String, String> uriVariables, TypeReference<T> returnedType, String bearerAuth) {
+        var entityWithHeaders = setHeaders(bearerAuth);
         String response;
         try {
             response = restTemplate.exchange(uri, HttpMethod.GET, entityWithHeaders, String.class, uriVariables).getBody();
         } catch(RestClientException e) {
-            throw new AllegroClientException("Allegro client was unable to execute GET response. Reasone: %s".formatted(e.getMessage()), e);
+            throw new AllegroClientException("Allegro client was unable to execute GET response. Reason: %s".formatted(e.getMessage()), e);
         }
         return parseValue(response, returnedType);
     }
 
-    private HttpEntity<HttpHeaders> setHeaders() {
+    private HttpEntity<HttpHeaders> setHeaders(String bearerAuth) {
         var headers = new HttpHeaders();
-        headers.setBearerAuth(getAppToken());
-        headers.set("Accept", allegroProperties.allegroHeadersV1());
-        headers.set("Content-Type", HEADERS_V1);
+        headers.setBearerAuth(bearerAuth);
+        headers.setContentType(MediaType.valueOf(allegroProperties.allegroContentType()));
+        headers.setAccept(Collections.singletonList(MediaType.valueOf(allegroProperties.allegroContentType())));
         return new HttpEntity<>(headers);
-    }
-
-    private String getAppToken() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.setBasicAuth(CLIENT_ID, CLIENT_SECRET);
-
-        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("grant_type", "client_credentials");
-
-        HttpEntity<MultiValueMap<String, String>> requestEntity =
-                new HttpEntity<>(body, headers);
-
-        ResponseEntity<String> response = restTemplate.postForEntity(
-                ALLEGRO_SITE_URL + "/auth/oauth/token",
-                requestEntity,
-                String.class);
-        try {
-            JsonNode responseBody = objectMapper.readTree(response.getBody());
-            return responseBody.get("access_token").asText();
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Failed to parse access token response", e);
-        }
     }
 
     private <T> T parseValue(String retrievedResponse, TypeReference<T> returnedType) {

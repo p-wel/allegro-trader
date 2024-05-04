@@ -1,4 +1,4 @@
-package com.pwel.allegrotrader.allegro.domain.search.web;
+package com.pwel.allegrotrader.api.finder.web;
 
 
 import com.pwel.allegrotrader.allegro.domain.search.domain.SearchFacade;
@@ -14,8 +14,8 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @AllArgsConstructor
-@RequestMapping("api/v1/allegro")
-public class SearchController {
+@RequestMapping("api/v1/finder/allegro/")
+public class FinderAllegroController {
 
     private final SearchFacade searchFacade;
 
