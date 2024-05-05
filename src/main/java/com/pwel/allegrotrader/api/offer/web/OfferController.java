@@ -2,7 +2,7 @@
 //
 //import com.pwel.allegrotrader.deprecated.AllegroInterfaceDeprecated;
 //import com.pwel.allegrotrader.deprecated.dto.Currency;
-//import com.pwel.allegrotrader.deprecated.dto.PublishOfferDto;
+//import com.pwel.allegrotrader.api.offer.domain.PublishOfferDto;
 //import com.pwel.allegrotrader.api.offer.domain.OfferDraft;
 //import com.pwel.allegrotrader.api.offer.domain.OfferDraftService;
 //import com.pwel.allegrotrader.api.offer.domain.PublishedOffer;

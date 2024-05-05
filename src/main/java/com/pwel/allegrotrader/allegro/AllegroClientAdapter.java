@@ -8,7 +8,9 @@ import com.pwel.allegrotrader.allegro.domain.search.response.offer.OfferSearchRe
 import com.pwel.allegrotrader.allegro.exception.AllegroClientException;
 import com.pwel.allegrotrader.allegro.exception.AllegroMappingException;
 import com.pwel.allegrotrader.allegro.domain.search.response.category.CategoriesResponse;
+import com.pwel.allegrotrader.api.offer.domain.PublishOfferDto;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -33,11 +35,33 @@ public class AllegroClientAdapter implements AllegroClient {
         return executeGet(uri, Map.of(), new TypeReference<>() {}, bearerToken);
     }
 
+    // TODO implement
+    @Override
+    public int getMatchingCategory(String phrase) {
+        return 0;
+    }
+
     @Override
     public OfferSearchResponse getOffers(OfferSearchCriteriaParams searchCriteria) {
         var bearerToken = allegroOAuth2Client.getClientCredentials();
         var uri = buildOfferSearchUri(searchCriteria);
         return executeGet(uri, Map.of(), new TypeReference<>() {}, bearerToken);
+    }
+
+    // TODO pass proper values
+    @Override
+    public ResponseEntity<JSONObject> publishOffer(PublishOfferDto publishOfferDto, String bearerUserToken) {
+//        HttpEntity<?> request = createRequestWithBearerTokenAndBody(
+//                JsonBodyFactoryForAllegroRequest.createPublishOfferBodyWithGTIN(publishOfferDto).toString(),
+//                bearerUserToken);
+//        String url = URL_ALLEGRO_API + "/sale/product-offers";
+//
+//        try {
+//            return restTemplate.postForEntity(url, request, JSONObject.class);
+//        } catch (RestClientException e) {
+//            throw new RuntimeException("Failed to publish an offer. Bearer: " + bearerUserToken, e);
+//        }
+        return null;
     }
 
     private String buildCategoriesUri(String categoryId) {

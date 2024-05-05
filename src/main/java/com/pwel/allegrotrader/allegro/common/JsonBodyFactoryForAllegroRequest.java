@@ -1,6 +1,6 @@
 package com.pwel.allegrotrader.allegro.common;
 
-import com.pwel.allegrotrader.deprecated.dto.PublishOfferDto;
+import com.pwel.allegrotrader.api.offer.domain.PublishOfferDto;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

@@ -6,4 +6,6 @@ public interface AllegroOAuth2Client {
      * bearer-token-for-application
      */
     String getClientCredentials();
+
+    String generateBearerToken(String tenSecondsCode);
 }

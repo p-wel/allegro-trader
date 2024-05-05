@@ -5,13 +5,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pwel.allegrotrader.allegro.AllegroProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Base64;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 public class AllegroOAuth2ClientAdapter implements AllegroOAuth2Client {
@@ -21,7 +21,8 @@ public class AllegroOAuth2ClientAdapter implements AllegroOAuth2Client {
     private final AllegroProperties allegroProperties;
 
     /**
-     * bearer-token-for-application
+     * App Token
+     * "bearer-token-for-application"
      */
     @Override
     public String getClientCredentials() {
@@ -31,6 +32,25 @@ public class AllegroOAuth2ClientAdapter implements AllegroOAuth2Client {
         var url = allegroProperties.urlWebsite() + "/auth/oauth/token";
         ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
         return retrieveAccessToken(response);
+    }
+
+    /**
+     * User authorization
+     * "bearer-token-for-user"
+     */
+    @Override
+    public String generateBearerToken(String tenSecondsCode) {
+        // TODO pass proper values
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Authorization", "basic " + encodeClientIdSecretToBase64());
+//        HttpEntity<?> request = new HttpEntity<>(headers);
+//        String url = "https://allegro.pl.allegrosandbox.pl/auth/oauth/token"
+//                + "?grant_type=authorization_code"
+//                + "&code=" + tenSecondsCode
+//                + "&redirect_uri=" + allegroProperties.altUrlAuthRedirection();
+//        ResponseEntity<JsonNode> response = restTemplate.exchange(url, HttpMethod.POST, request, JsonNode.class);
+//        return Objects.requireNonNull(response.getBody()).get("access_token").asText();
+        return null;
     }
 
     private HttpHeaders setClientCredentialsHeaders() {
@@ -52,6 +72,21 @@ public class AllegroOAuth2ClientAdapter implements AllegroOAuth2Client {
             return responseBody.get("access_token").asText();
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to parse access token response", e);
+        }
+    }
+
+    private String encodeClientIdSecretToBase64() {
+        // TODO pass proper values
+        String stringToEncode = "CLIENT_ID" + ":" + "CLIENT_SECRET";
+        return Base64.getEncoder().encodeToString(stringToEncode.getBytes());
+    }
+
+    JsonNode mapEntityToJsonNode(ResponseEntity<String> responseEntity, String bodyField) {
+        try {
+            JsonNode bodyRoot = objectMapper.readTree(responseEntity.getBody());
+            return bodyRoot.path(bodyField);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to map RestResponse into JsonNode" + e);
         }
     }
 }

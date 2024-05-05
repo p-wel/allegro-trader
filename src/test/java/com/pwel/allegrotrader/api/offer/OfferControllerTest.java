@@ -1,4 +1,4 @@
-package com.pwel.allegrotrader.offer;
+package com.pwel.allegrotrader.api.offer;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.Test;

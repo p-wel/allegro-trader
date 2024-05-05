@@ -1,4 +1,4 @@
-package com.pwel.allegrotrader.deprecated.dto;
+package com.pwel.allegrotrader.api.offer.domain;
 
 import lombok.Value;
 
@@ -15,4 +15,13 @@ public class PublishOfferDto {
     Currency currency;
     int quantity;
 
+}
+
+enum Currency {
+    PLN,
+    EUR,
+    USD,
+    CHF,
+    GBP,
+    NOK
 }
