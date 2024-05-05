@@ -48,16 +48,7 @@
 //        this.BASE_64_CLIENT_ID_SECRET = encodeClientIdSecretToBase64();
 //    }
 //
-//    public ResponseEntity<String> getMainCategories() {
-//        HttpEntity<?> request = createRequestWithAppToken();
-//        String url = URL_ALLEGRO_API + "/sale/categories";
-//        try {
-//            return restTemplate.exchange(url, HttpMethod.GET, request, String.class);
-//        } catch (RestClientException e) {
-//            throw new RuntimeException("Failed to retrieve main categories", e);
-//        }
-//    }
-//
+//    // using user token
 //    public ResponseEntity<String> getMainCategories(String bearerToken) {
 //        HttpEntity<?> request = createRequestWithBearerToken(bearerToken);
 //        String url = URL_ALLEGRO_API + "/sale/categories";
