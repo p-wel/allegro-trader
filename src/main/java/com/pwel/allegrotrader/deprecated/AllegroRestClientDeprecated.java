@@ -20,7 +20,7 @@
 //import java.util.Objects;
 //
 //@Component
-//public class AllegroRestClient {
+//public class AllegroRestClientDeprecated {
 //
 //    private static final String URL_WEBSITE_REDIRECTION = "https://api-trader-bfa28.web.app/authenticate";
 //    private final String URL_ALLEGRO;
@@ -32,7 +32,7 @@
 //    private final RestTemplate restTemplate;
 //    private final ObjectMapper objectMapper;
 //
-//    public AllegroRestClient(
+//    public AllegroRestClientDeprecated(
 //            @Value("${allegro.url}") String URL_ALLEGRO,
 //            @Value("${allegro.url.api}") String URL_ALLEGRO_API,
 //            @Value("${allegro.client.id:}") String CLIENT_ID,
@@ -59,16 +59,7 @@
 //        }
 //    }
 //
-//    public ResponseEntity<String> getSubcategories(int parentId) {
-//        HttpEntity<?> request = createRequestWithAppToken();
-//        String url = URL_ALLEGRO_API + "/sale/categories?parent.id=" + parentId;
-//        try {
-//            return restTemplate.exchange(url, HttpMethod.GET, request, String.class);
-//        } catch (RestClientException e) {
-//            throw new RuntimeException("Failed to retrieve subcategories of '" + parentId + "'", e);
-//        }
-//    }
-//
+//    // later
 //    public ResponseEntity<String> getMatchingCategories(ProductDto productDto) {
 //        HttpEntity<?> request = createRequestWithAppToken();
 //        String url = URL_ALLEGRO_API + "/sale/matching-categories"
@@ -80,6 +71,7 @@
 //        }
 //    }
 //
+//    // in progress
 //    public ResponseEntity<String> searchByRequest(SearchCriteriaDto searchCriteriaDto) {
 //        HttpEntity<?> request = createRequestWithAppToken();
 //        String url = URL_ALLEGRO_API + "/offers/listing"
@@ -95,6 +87,7 @@
 //        }
 //    }
 //
+//    // later
 //    public ResponseEntity<JSONObject> publishOffer(PublishOfferDto publishOfferDto, String bearerUserToken) {
 //        HttpEntity<?> request = createRequestWithBearerTokenAndBody(
 //                JsonBodyFactoryForAllegroRequest.createPublishOfferBodyWithGTIN(publishOfferDto).toString(),

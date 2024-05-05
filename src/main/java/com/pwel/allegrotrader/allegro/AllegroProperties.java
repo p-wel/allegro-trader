@@ -14,7 +14,8 @@ public record AllegroProperties(
 
          @NotBlank String allegroContentType,
 
-         @NotBlank String categoriesPath
+         @NotBlank String categoriesPath,
+         @NotBlank String offerSearchPath
 ) {
 
 }

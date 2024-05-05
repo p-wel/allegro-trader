@@ -1,4 +1,4 @@
-package com.pwel.allegrotrader.allegro.domain.search.domain;
+package com.pwel.allegrotrader.allegro.domain.search;
 
 import com.pwel.allegrotrader.allegro.AllegroClient;
 import org.springframework.context.annotation.Bean;

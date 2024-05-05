@@ -1,4 +1,4 @@
-package com.pwel.allegrotrader.allegro.domain.search.domain.response;
+package com.pwel.allegrotrader.allegro.domain.search.response.category;
 
 
 public record Category(String id,
