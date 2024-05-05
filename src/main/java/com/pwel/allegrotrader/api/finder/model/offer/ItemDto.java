@@ -1,14 +1,11 @@
 package com.pwel.allegrotrader.api.finder.model.offer;
 
-import lombok.Builder;
+import lombok.*;
 
 @Builder
+@Getter
 public class ItemDto {
-    String id;
-    String name;
+    @NonNull String id;
+    @NonNull String name;
     SellingMode sellingMode;
-
-    private void qwe(){
-
-    }
 }
