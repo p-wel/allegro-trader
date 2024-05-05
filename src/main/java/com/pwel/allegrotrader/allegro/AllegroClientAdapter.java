@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pwel.allegrotrader.allegro.authorization.AllegroOAuth2Client;
 import com.pwel.allegrotrader.allegro.exception.AllegroClientException;
 import com.pwel.allegrotrader.allegro.exception.AllegroMappingException;
-import com.pwel.allegrotrader.allegro.domain.search.domain.response.CategoryResponse;
+import com.pwel.allegrotrader.allegro.domain.search.domain.response.CategoriesResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.client.RestClientException;
@@ -26,7 +26,7 @@ public class AllegroClientAdapter implements AllegroClient {
     private final AllegroOAuth2Client allegroOAuth2Client;
 
     @Override
-    public List<CategoryResponse> getMainCategories() {
+    public CategoriesResponse getMainCategories() {
         var bearerAuth = allegroOAuth2Client.getClientCredentials();
         var uri = buildCategoriesUri();
         return executeGet(uri, Map.of(), new TypeReference<>() {}, bearerAuth);
