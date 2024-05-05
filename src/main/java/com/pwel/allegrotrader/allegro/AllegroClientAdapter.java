@@ -3,9 +3,11 @@ package com.pwel.allegrotrader.allegro;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pwel.allegrotrader.allegro.authorization.AllegroOAuth2Client;
+import com.pwel.allegrotrader.allegro.domain.search.request.offer.OfferSearchCriteriaParams;
+import com.pwel.allegrotrader.allegro.domain.search.response.offer.OfferSearchResponse;
 import com.pwel.allegrotrader.allegro.exception.AllegroClientException;
 import com.pwel.allegrotrader.allegro.exception.AllegroMappingException;
-import com.pwel.allegrotrader.allegro.domain.search.domain.response.CategoriesResponse;
+import com.pwel.allegrotrader.allegro.domain.search.response.category.CategoriesResponse;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.http.*;
@@ -27,9 +29,16 @@ public class AllegroClientAdapter implements AllegroClient {
 
     @Override
     public CategoriesResponse getCategories(String categoryId) {
-        var bearerAuth = allegroOAuth2Client.getClientCredentials();
+        var bearerToken = allegroOAuth2Client.getClientCredentials();
         var uri = buildCategoriesUri(categoryId);
-        return executeGet(uri, Map.of(), new TypeReference<>() {}, bearerAuth);
+        return executeGet(uri, Map.of(), new TypeReference<>() {}, bearerToken);
+    }
+
+    @Override
+    public OfferSearchResponse getOffers(OfferSearchCriteriaParams searchCriteria) {
+        var bearerToken = allegroOAuth2Client.getClientCredentials();
+        var uri = buildOfferSearchUri(searchCriteria);
+        return executeGet(uri, Map.of(), new TypeReference<>() {}, bearerToken);
     }
 
     private String buildCategoriesUri(String categoryId) {
@@ -40,8 +49,29 @@ public class AllegroClientAdapter implements AllegroClient {
                 .toUriString();
     }
 
-    private <T> T executeGet(String uri, Map<String, String> uriVariables, TypeReference<T> returnedType, String bearerAuth) {
-        var entityWithHeaders = setHeaders(bearerAuth);
+    private String buildOfferSearchUri(OfferSearchCriteriaParams searchCriteria) {
+        return UriComponentsBuilder.fromHttpUrl(allegroProperties.urlApi())
+                .path(allegroProperties.offerSearchPath())
+                .queryParam("category.id", searchCriteria.categoryId())
+                .queryParam("phrase", searchCriteria.phrase())
+//                .queryParam("seller.id", searchCriteria.sellerId())
+//                .queryParam("seller.login", searchCriteria.sellerLogin())
+                .queryParam("marketplaceId", searchCriteria.marketplaceId())
+                .queryParam("shipping.country", searchCriteria.shippingCountry())
+                .queryParam("currency", searchCriteria.currency())
+                .queryParam("searchMode", searchCriteria.searchMode())
+                .queryParam("offset", searchCriteria.offset())
+                .queryParam("limit", searchCriteria.limit())
+                .queryParam("sort", searchCriteria.sort())
+                .queryParam("include", searchCriteria.include())
+                .queryParam("fallback", searchCriteria.fallback())
+//                .queryParam("dynamicFilters", searchCriteria.dynamicFilters().id()) //TODO dynamicFilters query param name seems to be invalid
+                .build()
+                .toUriString();
+    }
+
+    private <T> T executeGet(String uri, Map<String, String> uriVariables, TypeReference<T> returnedType, String bearerToken) {
+        var entityWithHeaders = setHeaders(bearerToken);
         String response;
         try {
             response = restTemplate.exchange(uri, HttpMethod.GET, entityWithHeaders, String.class, uriVariables).getBody();

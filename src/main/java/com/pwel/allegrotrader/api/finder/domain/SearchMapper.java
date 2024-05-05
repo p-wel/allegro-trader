@@ -1,6 +1,6 @@
 package com.pwel.allegrotrader.api.finder.domain;
 
-import com.pwel.allegrotrader.allegro.domain.search.domain.response.CategoriesResponse;
+import com.pwel.allegrotrader.allegro.domain.search.response.category.CategoriesResponse;
 import com.pwel.allegrotrader.api.finder.model.CategoryDto;
 import lombok.experimental.UtilityClass;
 
