@@ -1,10 +1,8 @@
 package com.pwel.allegrotrader.allegro;
 
-import com.pwel.allegrotrader.allegro.domain.search.domain.response.CategoryResponse;
-
-import java.util.List;
+import com.pwel.allegrotrader.allegro.domain.search.domain.response.CategoriesResponse;
 
 public interface AllegroClient {
 
-    List<CategoryResponse> getMainCategories();
+    CategoriesResponse getMainCategories();
 }
