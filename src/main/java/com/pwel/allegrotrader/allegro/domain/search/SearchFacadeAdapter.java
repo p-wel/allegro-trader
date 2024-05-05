@@ -4,7 +4,7 @@ import com.pwel.allegrotrader.allegro.AllegroClient;
 import com.pwel.allegrotrader.allegro.domain.search.request.offer.OfferSearchCriteriaParams;
 import com.pwel.allegrotrader.api.finder.domain.SearchMapper;
 import com.pwel.allegrotrader.api.finder.model.CategoryDto;
-import com.pwel.allegrotrader.api.finder.model.OfferDto;
+import com.pwel.allegrotrader.api.finder.model.offer.ItemDto;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -21,9 +21,8 @@ public class SearchFacadeAdapter implements SearchFacade {
     }
 
     @Override
-    public List<OfferDto> getOffers(OfferSearchCriteriaParams searchCriteria) {
-        var offersList = allegroClient.getOffers(searchCriteria);
-        // TODO mapper
-        return List.of();
+    public List<ItemDto> getOffers(OfferSearchCriteriaParams searchCriteria) {
+        var allegroOffersList = allegroClient.getOffers(searchCriteria);
+        return SearchMapper.toOfferList(allegroOffersList);
     }
 }

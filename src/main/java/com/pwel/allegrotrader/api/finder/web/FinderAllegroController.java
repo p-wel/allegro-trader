@@ -2,10 +2,9 @@ package com.pwel.allegrotrader.api.finder.web;
 
 
 import com.pwel.allegrotrader.allegro.domain.search.SearchFacade;
-import com.pwel.allegrotrader.allegro.domain.search.request.offer.DynamicFilter;
 import com.pwel.allegrotrader.allegro.domain.search.request.offer.OfferSearchCriteriaParams;
 import com.pwel.allegrotrader.api.finder.model.CategoryDto;
-import com.pwel.allegrotrader.api.finder.model.OfferDto;
+import com.pwel.allegrotrader.api.finder.model.offer.ItemDto;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +29,7 @@ public class FinderAllegroController {
     }
 
     @GetMapping("/offers")
-    public List<OfferDto> getOffers(
+    public List<ItemDto> getOffers(
             @Valid @RequestParam String categoryId,
             @Valid @RequestParam String phrase,
 //            @Valid @RequestParam String sellerId,
