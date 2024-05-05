@@ -15,7 +15,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -27,15 +26,16 @@ public class AllegroClientAdapter implements AllegroClient {
     private final AllegroOAuth2Client allegroOAuth2Client;
 
     @Override
-    public CategoriesResponse getMainCategories() {
+    public CategoriesResponse getCategories(String categoryId) {
         var bearerAuth = allegroOAuth2Client.getClientCredentials();
-        var uri = buildCategoriesUri();
+        var uri = buildCategoriesUri(categoryId);
         return executeGet(uri, Map.of(), new TypeReference<>() {}, bearerAuth);
     }
 
-    private String buildCategoriesUri() {
+    private String buildCategoriesUri(String categoryId) {
         return UriComponentsBuilder.fromHttpUrl(allegroProperties.urlApi())
-                .path(allegroProperties.mainCategoriesPath())
+                .path(allegroProperties.categoriesPath())
+                .queryParam("parent.id", categoryId)
                 .build()
                 .toUriString();
     }

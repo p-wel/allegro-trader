@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface SearchFacade {
 
-    List<CategoryDto> getCategories();
+    List<CategoryDto> getCategories(String categoryId);
 }

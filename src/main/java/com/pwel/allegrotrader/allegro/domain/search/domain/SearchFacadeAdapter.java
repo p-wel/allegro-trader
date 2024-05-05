@@ -13,8 +13,8 @@ public class SearchFacadeAdapter implements SearchFacade {
     private final AllegroClient allegroClient;
 
     @Override
-    public List<CategoryDto> getCategories() {
-        var allegroCategoryList = allegroClient.getMainCategories();
+    public List<CategoryDto> getCategories(String categoryId) {
+        var allegroCategoryList = allegroClient.getCategories(categoryId);
         return SearchMapper.toCategoryList(allegroCategoryList);
     }
 }

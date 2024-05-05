@@ -4,5 +4,5 @@ import com.pwel.allegrotrader.allegro.domain.search.domain.response.CategoriesRe
 
 public interface AllegroClient {
 
-    CategoriesResponse getMainCategories();
+    CategoriesResponse getCategories(String categoryId);
 }

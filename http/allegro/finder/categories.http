@@ -1,1 +1,1 @@
-GET http://localhost:8080/api/v1/finder/allegro/categories
+GET http://localhost:8080/api/v1/finder/allegro/categories?categoryId=42540aec-367a-4e5e-b411-17c09b08e41f
