@@ -1,10 +1,13 @@
 package com.pwel.allegrotrader.allegro.domain.search.response.category;
 
-public record Category(String id,
-                       boolean leaf,
-                       String name,
-                       Options options,
-                       Parent parent) {
+public record Category(
+        String id,
+        boolean leaf,
+        String name,
+        Options options,
+        Parent parent
+) {
+
 }
 
 class Options {
