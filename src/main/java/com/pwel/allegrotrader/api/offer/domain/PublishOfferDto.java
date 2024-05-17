@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 
 @Value
 public class PublishOfferDto {
-
     String gtinId;
     String name;
     String parametersId;
@@ -14,7 +13,6 @@ public class PublishOfferDto {
     BigDecimal price;
     Currency currency;
     int quantity;
-
 }
 
 enum Currency {

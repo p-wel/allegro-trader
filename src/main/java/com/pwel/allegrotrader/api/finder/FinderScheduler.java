@@ -5,7 +5,6 @@ import com.pwel.allegrotrader.allegro.domain.search.request.offer.OfferSearchCri
 import com.pwel.allegrotrader.api.finder.model.offer.ItemDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -20,41 +19,23 @@ public class FinderScheduler {
     //  In API, FinderScheduler's results will save last found records to database.
     //  The API will read last found records and compare it with new records found by (used there) FinderScheduler
 
-    private static final long SCHEDULER_RATE = 60_000L; // 60s
-
     private final SearchFacadeAdapter searchFacade;
     private final FinderMailingServiceImpl finderMailingService;
 
-    @Scheduled(fixedRate = SCHEDULER_RATE)
-    private void setFinderScheduler() {
-        var searchCriteria = setSearchCriteria();
+    public String createMailMessage(OfferSearchCriteriaParams searchCriteria) {
         var results = searchFacade.getOffers(searchCriteria);
-        var resultTemplate = getResultTemplate();
-        var mailText = toMailText(resultTemplate, results);
-        finderMailingService.sendSimpleMessage(
-                "pawelx777x@gmail.com",
-                "Testing first Subject",
-                mailText);
-        log.info("Mailing sent.");
+        return toMailMessage(createMailTemplate(), results);
     }
 
-    private OfferSearchCriteriaParams setSearchCriteria() {
-        return OfferSearchCriteriaParams.builder()
-                .categoryId("4")
-                .phrase("smartphone")
-                .marketplaceId("allegro-pl")
-                .shippingCountry("PL")
-                .currency("PLN")
-                .searchMode("REGULAR")
-                .offset(0)
-                .limit(3)
-                .sort("relevance")
-                .include("all")
-                .fallback(false)
-                .build();
+    public void sendMail(String mailMessage) {
+        var to = "pawelx777x@gmail.com";
+        var subject = "Finder results";
+        finderMailingService.sendSimpleMessage(to, subject, mailMessage);
+        log.info("Mailing sent to: %s.".formatted(to));
     }
 
-    private static String getResultTemplate() {
+
+    private static String createMailTemplate() {
         return "Item %s:\n" +
                 "Id: %s\n" +
                 "Name: %s\n" +
@@ -63,7 +44,7 @@ public class FinderScheduler {
                 "FixedPrice: %s %s\n";
     }
 
-    private static String toMailText(String resultTemplate, List<ItemDto> results) {
+    private static String toMailMessage(String resultTemplate, List<ItemDto> results) {
         var line0 = resultTemplate.formatted(0,
                 results.get(0).getId(),
                 results.get(0).getName(),
