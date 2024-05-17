@@ -1,0 +1,16 @@
+GET http://localhost:8080/api/v1/finder/allegro/offers?
+    categoryId=4&
+    phrase=smartphone&
+    marketplaceId=allegro-pl&
+    shippingCountry=PL&
+    currency=PLN&
+    searchMode=REGULAR&
+    offset=0&
+    limit=60&
+    sort=relevance&
+    include=all&
+    fallback=false
+
+#    sellerId=12345&
+#    sellerLogin=login12345&
+#    dynamicFilterId=parameter.11323=11323_1
