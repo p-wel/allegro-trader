@@ -10,12 +10,17 @@ import com.pwel.allegrotrader.api.finder.model.CategoryDto;
 import com.pwel.allegrotrader.api.finder.model.offer.Price;
 import com.pwel.allegrotrader.api.finder.model.offer.SellingMode;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Slf4j
 @UtilityClass
 public class SearchMapper {
+
+    private static List<String> previousResults = new ArrayList<>();
 
     public List<CategoryDto> toCategoryList(CategoriesResponse response) {
         var list = new ArrayList<CategoryDto>();
@@ -29,6 +34,9 @@ public class SearchMapper {
     }
 
     public List<ItemDto> toOfferList(OfferSearchResponse response) {
+        if (response == null) {
+            return null;
+        }
         var list = new ArrayList<ItemDto>();
         response.items().getPromoted().forEach(promoted ->
                 list.add(retrieveItemDto(promoted))
@@ -38,12 +46,48 @@ public class SearchMapper {
         return list;
     }
 
+    public List<ItemDto> distinct(List<ItemDto> items) {
+        if (items == null || previousResults == null) {
+            return null;
+        }
+        var itemsIdList = toIdList(items);
+        if (!previousResults.isEmpty()) {
+            log.info("SearchMapper: Distincting lists: {} and {}", itemsIdList, previousResults);
+            return toDistinctList(items);
+        }
+        previousResults.addAll(itemsIdList);
+        log.info("SearchMapper: Nothing to distinct. List after checks: {} and {}", itemsIdList, previousResults);
+        return items;
+    }
+
+    private List<ItemDto> toDistinctList(List<ItemDto> listToCheck) {
+        var distinctList = new ArrayList<ItemDto>();
+        listToCheck.forEach(item -> {
+            if (!previousResults.contains(item.getId())) {
+                distinctList.add(item);
+                previousResults.add(item.getId());
+            }
+        });
+        if (previousResults.size() > 100_000) {
+            var tmpList = new ArrayList<>(previousResults.subList(900, 999));
+            previousResults = tmpList;
+        }
+        return distinctList;
+    }
+
+    private List<String> toIdList(List<ItemDto> items) {
+        return items.stream()
+                .map(ItemDto::getId)
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
     private ItemDto retrieveItemDto(Promoted promoted) {
         var sellingMode = retrieveSellingMode(promoted);
         return ItemDto.builder()
                 .id(promoted.getId())
                 .name(promoted.getName())
                 .sellingMode(sellingMode)
+                .vendorUrl(promoted.getVendor() == null ? null : promoted.getVendor().getUrl())
                 .build();
     }
 
@@ -53,6 +97,7 @@ public class SearchMapper {
                 .id(regular.getId())
                 .name(regular.getName())
                 .sellingMode(sellingMode)
+                .vendorUrl(regular.getVendor() == null ? null : regular.getVendor().getUrl())
                 .build();
     }
 

@@ -6,7 +6,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
-public class FinderMailingConfig {
+public class FinderMailConfig {
 
     @Bean
     public JavaMailSender getJavaMailSender() {
