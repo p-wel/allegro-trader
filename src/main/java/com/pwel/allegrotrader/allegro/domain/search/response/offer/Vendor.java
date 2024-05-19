@@ -1,6 +1,9 @@
 package com.pwel.allegrotrader.allegro.domain.search.response.offer;
 
-class Vendor {
+import lombok.Getter;
+
+@Getter
+public class Vendor {
     String id;
     String url;
 }

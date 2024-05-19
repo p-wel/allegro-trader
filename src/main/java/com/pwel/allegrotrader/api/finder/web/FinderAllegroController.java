@@ -3,7 +3,7 @@ package com.pwel.allegrotrader.api.finder.web;
 
 import com.pwel.allegrotrader.allegro.domain.search.SearchFacade;
 import com.pwel.allegrotrader.allegro.domain.search.request.offer.OfferSearchCriteriaParams;
-import com.pwel.allegrotrader.api.finder.FinderSchedulerFacade;
+import com.pwel.allegrotrader.api.finder.FinderScheduler;
 import com.pwel.allegrotrader.api.finder.model.CategoryDto;
 import com.pwel.allegrotrader.api.finder.model.offer.ItemDto;
 import jakarta.validation.Valid;
@@ -23,19 +23,19 @@ import java.util.List;
 public class FinderAllegroController {
 
     private final SearchFacade searchFacade;
-    private final FinderSchedulerFacade finderSchedulerFacade;
+    private final FinderScheduler finderScheduler;
 
     @PostMapping("/enable")
     public void enableFinder(@RequestBody OfferSearchCriteriaParams searchCriteria) {
         log.info("Controller: enable scheduler Finder with phrase: '{}'", searchCriteria.phrase());
-        finderSchedulerFacade.setSearchCriteriaForMailing(searchCriteria);
-        FinderSchedulerFacade.ACTIVE = true;
+        finderScheduler.setSearchCriteriaForMailing(searchCriteria);
+        FinderScheduler.ACTIVE = true;
     }
 
     @GetMapping("/disable")
     public void disableFinder() {
         log.info("Controller: disable scheduler Finder");
-        FinderSchedulerFacade.ACTIVE = false;
+        FinderScheduler.ACTIVE = false;
     }
 
     @GetMapping("/categories")

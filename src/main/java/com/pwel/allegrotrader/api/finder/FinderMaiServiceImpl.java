@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class FinderMailingServiceImpl {
+public class FinderMaiServiceImpl {
 
     private final JavaMailSender javaMailSender;
 

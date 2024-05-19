@@ -10,4 +10,5 @@ public class ItemDto {
     @NonNull String id;
     @NonNull String name;
     SellingMode sellingMode;
+    String vendorUrl;
 }

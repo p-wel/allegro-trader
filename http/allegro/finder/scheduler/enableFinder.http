@@ -8,9 +8,9 @@ Content-Type: application/json
   "shippingCountry": "PL",
   "currency": "PLN",
   "searchMode": "REGULAR",
-  "offset": 1,
+  "offset": 0,
   "limit": 3,
-  "sort": "relevance",
+  "sort": "-startTime",
   "include": "all",
   "fallback": false
 }

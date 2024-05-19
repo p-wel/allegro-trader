@@ -87,6 +87,7 @@ public class SearchMapper {
                 .id(promoted.getId())
                 .name(promoted.getName())
                 .sellingMode(sellingMode)
+                .vendorUrl(promoted.getVendor() == null ? null : promoted.getVendor().getUrl())
                 .build();
     }
 
@@ -96,6 +97,7 @@ public class SearchMapper {
                 .id(regular.getId())
                 .name(regular.getName())
                 .sellingMode(sellingMode)
+                .vendorUrl(regular.getVendor() == null ? null : regular.getVendor().getUrl())
                 .build();
     }
 
