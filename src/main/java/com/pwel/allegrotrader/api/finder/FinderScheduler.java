@@ -31,7 +31,7 @@ public class FinderScheduler {
         var to = "pawelx777x@gmail.com";
         var subject = "Finder results";
         finderMailingService.sendSimpleMessage(to, subject, mailMessage);
-        log.info("Mailing sent to: %s.".formatted(to));
+        log.info("Finder mail sent to: %s.".formatted(to));
     }
 
 

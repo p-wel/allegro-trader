@@ -25,21 +25,16 @@ public class FinderAllegroController {
     private final SearchFacade searchFacade;
     private final FinderSchedulerFacade finderSchedulerFacade;
 
-    @PostMapping("/configure")
-    public void configureFinder(@RequestBody OfferSearchCriteriaParams searchCriteria) {
-        log.info("Controller: configure Finder with phrase: {}", searchCriteria.phrase());
-        finderSchedulerFacade.configureMailMessage(searchCriteria);
-    }
-
-    @GetMapping("/enable")
-    public void enableFinder() {
-        log.info("Controller: enable FinderScheduler");
+    @PostMapping("/enable")
+    public void enableFinder(@RequestBody OfferSearchCriteriaParams searchCriteria) {
+        log.info("Controller: enable scheduler Finder with phrase: {}", searchCriteria.phrase());
+        finderSchedulerFacade.setSearchCriteriaForMailing(searchCriteria);
         FinderSchedulerFacade.ACTIVE = true;
     }
 
     @GetMapping("/disable")
     public void disableFinder() {
-        log.info("Controller: disable FinderScheduler");
+        log.info("Controller: disable scheduler Finder");
         FinderSchedulerFacade.ACTIVE = false;
     }
 

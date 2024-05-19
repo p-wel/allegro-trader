@@ -13,23 +13,23 @@ public class FinderSchedulerFacade {
     @Setter
     public static boolean ACTIVE = false;
     private final static long SCHEDULER_RATE = 10_000L; // 10s
+    public static OfferSearchCriteriaParams searchCriteria = null;
 
     private final FinderScheduler finderScheduler;
-    private String mailText;
 
     public FinderSchedulerFacade(FinderScheduler finderScheduler) {
         this.finderScheduler = finderScheduler;
-        this.mailText = null;
     }
 
     @Scheduled(fixedRate = SCHEDULER_RATE)
     public void invokeScheduler() {
         if (ACTIVE) {
+            var mailText = finderScheduler.createMailMessage(searchCriteria);
             finderScheduler.sendMail(mailText);
         }
     }
 
-    public void configureMailMessage(OfferSearchCriteriaParams searchCriteria) {
-        mailText = this.finderScheduler.createMailMessage(searchCriteria);
+    public void setSearchCriteriaForMailing(OfferSearchCriteriaParams searchCriteriaParams) {
+        searchCriteria = searchCriteriaParams;
     }
 }

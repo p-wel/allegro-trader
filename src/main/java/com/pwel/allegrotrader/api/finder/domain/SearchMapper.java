@@ -10,12 +10,17 @@ import com.pwel.allegrotrader.api.finder.model.CategoryDto;
 import com.pwel.allegrotrader.api.finder.model.offer.Price;
 import com.pwel.allegrotrader.api.finder.model.offer.SellingMode;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Slf4j
 @UtilityClass
 public class SearchMapper {
+
+    private static List<ItemDto> lastOfferList = null;
 
     public List<CategoryDto> toCategoryList(CategoriesResponse response) {
         var list = new ArrayList<CategoryDto>();
@@ -36,6 +41,36 @@ public class SearchMapper {
         response.items().getRegular().forEach(regular ->
                 list.add(retrieveItemDto(regular)));
         return list;
+    }
+
+    public List<ItemDto> distinct(List<ItemDto> items) {
+        var itemsIdList = toIdList(items);
+        var lastOfferListIdList = toIdList(lastOfferList);
+
+        if (lastOfferList != null) {
+            log.info("Distincting lists: {} and {}", itemsIdList, lastOfferListIdList);
+            var distinctList = filterDistinctOfLists(items, lastOfferList);
+            lastOfferList = distinctList;
+            return distinctList;
+        }
+        log.info("Not distincting lists: {} and {}", itemsIdList, lastOfferListIdList);
+        lastOfferList = items;
+        return items;
+    }
+
+    private List<ItemDto> filterDistinctOfLists(List<ItemDto> list1, List<ItemDto> list2) {
+        return list1.stream()
+                .filter(item -> !list2.contains(item.getId()))
+                .toList();
+    }
+
+    private List<String> toIdList(List<ItemDto> items) {
+        if (items != null) {
+            return items.stream()
+                    .map(ItemDto::getId)
+                    .collect(Collectors.toCollection(ArrayList::new));
+        }
+        return null;
     }
 
     private ItemDto retrieveItemDto(Promoted promoted) {
