@@ -42,7 +42,7 @@ public class FinderAllegroController {
     public List<CategoryDto> getCategories(
             @Valid @RequestParam(required = false) String categoryId
     ) {
-        log.info("Controller: getCategories with categoryId: {}", categoryId);
+        log.info("Controller: getCategories with categoryId: '{}'", categoryId);
         return searchFacade.getCategories(categoryId);
     }
 
@@ -63,7 +63,7 @@ public class FinderAllegroController {
             @Valid @RequestParam Boolean fallback
 //            @Valid @RequestParam String dynamicFilterId
     ) {
-        log.info("Controller: getOffers with phrase: {}", phrase);
+        log.info("Controller: getOffers with phrase: '{}'", phrase);
         var searchCriteria = OfferSearchCriteriaParams.builder()
                 .categoryId(categoryId)
                 .phrase(phrase)

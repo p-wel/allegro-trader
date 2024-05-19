@@ -12,7 +12,7 @@ public class FinderScheduler {
 
     @Setter
     public static boolean ACTIVE = false;
-    private final static long SCHEDULER_RATE = 10_000L; // 10s
+    private final static long SCHEDULER_RATE = 60_000L; // 60s
     public static OfferSearchCriteriaParams searchCriteria = null;
 
     private final FinderMailHelper finderMailHelper;
@@ -25,7 +25,7 @@ public class FinderScheduler {
     public void invokeScheduler() {
         if (ACTIVE) {
             var mailText = finderMailHelper.createMailMessage(searchCriteria);
-            finderMailHelper.sendMail(mailText);
+            finderMailHelper.sendMailIfNew(mailText);
         }
     }
 

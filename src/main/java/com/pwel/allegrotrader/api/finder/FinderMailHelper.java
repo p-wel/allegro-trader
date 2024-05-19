@@ -23,11 +23,10 @@ public class FinderMailHelper {
         return toMailMessage(createMailTemplate(), results);
     }
 
-    public void sendMail(String mailMessage) {
+    public void sendMailIfNew(String mailMessage) {
         var to = "pawelx777x@gmail.com";
         var subject = "Finder results";
         finderMailingService.sendSimpleMessage(to, subject, mailMessage);
-        log.info("Finder: Mail sent to: %s.".formatted(to));
     }
 
 
@@ -39,7 +38,6 @@ public class FinderMailHelper {
                 "Price: %s %s\n" +
                 "FixedPrice: %s %s\n" +
                 "VendorLink: %s\n";
-
     }
 
     private static String toMailMessage(String resultTemplate, List<ItemDto> results) {
