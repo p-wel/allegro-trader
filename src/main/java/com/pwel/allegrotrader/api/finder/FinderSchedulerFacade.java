@@ -12,7 +12,7 @@ public class FinderSchedulerFacade {
 
     @Setter
     public static boolean ACTIVE = false;
-    private final static long SCHEDULER_RATE = 60_000L; // 60s
+    private final static long SCHEDULER_RATE = 10_000L; // 10s
 
     private final FinderScheduler finderScheduler;
     private String mailText;
@@ -30,19 +30,6 @@ public class FinderSchedulerFacade {
     }
 
     public void configureMailMessage(OfferSearchCriteriaParams searchCriteria) {
-        var criteriaParams = OfferSearchCriteriaParams.builder()
-                .categoryId("4")
-                .phrase("smartphone")
-                .marketplaceId("allegro-pl")
-                .shippingCountry("PL")
-                .currency("PLN")
-                .searchMode("REGULAR")
-                .offset(0)
-                .limit(3)
-                .sort("relevance")
-                .include("all")
-                .fallback(false)
-                .build();
-        mailText = this.finderScheduler.createMailMessage(criteriaParams);
+        mailText = this.finderScheduler.createMailMessage(searchCriteria);
     }
 }

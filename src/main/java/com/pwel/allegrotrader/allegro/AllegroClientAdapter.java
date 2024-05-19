@@ -9,7 +9,7 @@ import com.pwel.allegrotrader.allegro.exception.AllegroClientException;
 import com.pwel.allegrotrader.allegro.exception.AllegroMappingException;
 import com.pwel.allegrotrader.allegro.domain.search.response.category.CategoriesResponse;
 import lombok.RequiredArgsConstructor;
-import org.json.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
+@Slf4j
 @RequiredArgsConstructor
 public class AllegroClientAdapter implements AllegroClient {
 
@@ -31,6 +32,7 @@ public class AllegroClientAdapter implements AllegroClient {
     public CategoriesResponse getCategories(String categoryId) {
         var bearerToken = allegroOAuth2Client.getClientCredentials();
         var uri = buildCategoriesUri(categoryId);
+        log.info("AllegroClient: sending getCategories with id: {}", categoryId);
         return executeGet(uri, Map.of(), new TypeReference<>() {}, bearerToken);
     }
 
@@ -38,6 +40,7 @@ public class AllegroClientAdapter implements AllegroClient {
     public OfferSearchResponse getOffers(OfferSearchCriteriaParams searchCriteria) {
         var bearerToken = allegroOAuth2Client.getClientCredentials();
         var uri = buildOfferSearchUri(searchCriteria);
+        log.info("AllegroClient: sending getOffers with phrase: {}", searchCriteria.phrase());
         return executeGet(uri, Map.of(), new TypeReference<>() {}, bearerToken);
     }
 

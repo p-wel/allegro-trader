@@ -8,11 +8,13 @@ import com.pwel.allegrotrader.api.finder.model.CategoryDto;
 import com.pwel.allegrotrader.api.finder.model.offer.ItemDto;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @CrossOrigin
 @Validated
@@ -25,16 +27,19 @@ public class FinderAllegroController {
 
     @PostMapping("/configure")
     public void configureFinder(@RequestBody OfferSearchCriteriaParams searchCriteria) {
+        log.info("Controller: configure Finder with phrase: {}", searchCriteria.phrase());
         finderSchedulerFacade.configureMailMessage(searchCriteria);
     }
 
     @GetMapping("/enable")
     public void enableFinder() {
+        log.info("Controller: enable FinderScheduler");
         FinderSchedulerFacade.ACTIVE = true;
     }
 
     @GetMapping("/disable")
     public void disableFinder() {
+        log.info("Controller: disable FinderScheduler");
         FinderSchedulerFacade.ACTIVE = false;
     }
 
@@ -42,6 +47,7 @@ public class FinderAllegroController {
     public List<CategoryDto> getCategories(
             @Valid @RequestParam(required = false) String categoryId
     ) {
+        log.info("Controller: getCategories with categoryId: {}", categoryId);
         return searchFacade.getCategories(categoryId);
     }
 
@@ -62,6 +68,7 @@ public class FinderAllegroController {
             @Valid @RequestParam Boolean fallback
 //            @Valid @RequestParam String dynamicFilterId
     ) {
+        log.info("Controller: getOffers with phrase: {}", phrase);
         var searchCriteria = OfferSearchCriteriaParams.builder()
                 .categoryId(categoryId)
                 .phrase(phrase)
