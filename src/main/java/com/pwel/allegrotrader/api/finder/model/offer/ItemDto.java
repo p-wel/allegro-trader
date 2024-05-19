@@ -1,6 +1,8 @@
 package com.pwel.allegrotrader.api.finder.model.offer;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NonNull;
 
 @Builder
 @Getter

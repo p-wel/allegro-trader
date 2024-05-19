@@ -11,4 +11,6 @@ public interface SearchFacade {
     List<CategoryDto> getCategories(String categoryId);
 
     List<ItemDto> getOffers(OfferSearchCriteriaParams searchCriteria);
+
+    List<ItemDto> getDistinctOffers(OfferSearchCriteriaParams searchCriteria);
 }

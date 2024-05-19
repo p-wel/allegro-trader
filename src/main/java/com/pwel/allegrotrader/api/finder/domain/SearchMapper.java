@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @UtilityClass
 public class SearchMapper {
 
-    private static List<ItemDto> lastOfferList = null;
+    private static List<String> previousResults = new ArrayList<>();
 
     public List<CategoryDto> toCategoryList(CategoriesResponse response) {
         var list = new ArrayList<CategoryDto>();
@@ -34,6 +34,9 @@ public class SearchMapper {
     }
 
     public List<ItemDto> toOfferList(OfferSearchResponse response) {
+        if (response == null) {
+            return null;
+        }
         var list = new ArrayList<ItemDto>();
         response.items().getPromoted().forEach(promoted ->
                 list.add(retrieveItemDto(promoted))
@@ -44,33 +47,38 @@ public class SearchMapper {
     }
 
     public List<ItemDto> distinct(List<ItemDto> items) {
-        var itemsIdList = toIdList(items);
-        var lastOfferListIdList = toIdList(lastOfferList);
-
-        if (lastOfferList != null) {
-            log.info("Distincting lists: {} and {}", itemsIdList, lastOfferListIdList);
-            var distinctList = filterDistinctOfLists(items, lastOfferList);
-            lastOfferList = distinctList;
-            return distinctList;
+        if (items == null || previousResults == null) {
+            return null;
         }
-        log.info("Not distincting lists: {} and {}", itemsIdList, lastOfferListIdList);
-        lastOfferList = items;
+        var itemsIdList = toIdList(items);
+        if (!previousResults.isEmpty()) {
+            log.info("SearchMapper: Distincting lists: {} and {}", itemsIdList, previousResults);
+            return toDistinctList(items);
+        }
+        previousResults.addAll(itemsIdList);
+        log.info("SearchMapper: Nothing to distinct. List after checks: {} and {}", itemsIdList, previousResults);
         return items;
     }
 
-    private List<ItemDto> filterDistinctOfLists(List<ItemDto> list1, List<ItemDto> list2) {
-        return list1.stream()
-                .filter(item -> !list2.contains(item.getId()))
-                .toList();
+    private List<ItemDto> toDistinctList(List<ItemDto> listToCheck) {
+        var distinctList = new ArrayList<ItemDto>();
+        listToCheck.forEach(item -> {
+            if (!previousResults.contains(item.getId())) {
+                distinctList.add(item);
+                previousResults.add(item.getId());
+            }
+        });
+        if (previousResults.size() > 100_000) {
+            var tmpList = new ArrayList<>(previousResults.subList(900, 999));
+            previousResults = tmpList;
+        }
+        return distinctList;
     }
 
     private List<String> toIdList(List<ItemDto> items) {
-        if (items != null) {
-            return items.stream()
-                    .map(ItemDto::getId)
-                    .collect(Collectors.toCollection(ArrayList::new));
-        }
-        return null;
+        return items.stream()
+                .map(ItemDto::getId)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     private ItemDto retrieveItemDto(Promoted promoted) {

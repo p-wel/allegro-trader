@@ -27,7 +27,7 @@ public class FinderAllegroController {
 
     @PostMapping("/enable")
     public void enableFinder(@RequestBody OfferSearchCriteriaParams searchCriteria) {
-        log.info("Controller: enable scheduler Finder with phrase: {}", searchCriteria.phrase());
+        log.info("Controller: enable scheduler Finder with phrase: '{}'", searchCriteria.phrase());
         finderSchedulerFacade.setSearchCriteriaForMailing(searchCriteria);
         FinderSchedulerFacade.ACTIVE = true;
     }

@@ -16,7 +16,7 @@ public class FinderMailingServiceImpl {
         message.setFrom("allegrotradermail@gmail.com");
         message.setTo(to);
         message.setSubject(subject);
-        message.setText(text);
+        message.setText(text == null ? "Null results!" : text);
         javaMailSender.send(message);
     }
 }

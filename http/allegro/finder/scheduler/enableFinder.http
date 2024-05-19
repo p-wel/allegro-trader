@@ -8,7 +8,7 @@ Content-Type: application/json
   "shippingCountry": "PL",
   "currency": "PLN",
   "searchMode": "REGULAR",
-  "offset": 0,
+  "offset": 1,
   "limit": 3,
   "sort": "relevance",
   "include": "all",

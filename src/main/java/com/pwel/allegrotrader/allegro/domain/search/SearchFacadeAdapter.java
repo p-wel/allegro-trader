@@ -23,6 +23,12 @@ public class SearchFacadeAdapter implements SearchFacade {
     @Override
     public List<ItemDto> getOffers(OfferSearchCriteriaParams searchCriteria) {
         var allegroOffersList = allegroClient.getOffers(searchCriteria);
+        return SearchMapper.toOfferList(allegroOffersList);
+    }
+
+    @Override
+    public List<ItemDto> getDistinctOffers(OfferSearchCriteriaParams searchCriteria) {
+        var allegroOffersList = allegroClient.getOffers(searchCriteria);
         var offerList = SearchMapper.toOfferList(allegroOffersList);
         return SearchMapper.distinct(offerList);
     }

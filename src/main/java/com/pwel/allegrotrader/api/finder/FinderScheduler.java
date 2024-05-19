@@ -23,7 +23,7 @@ public class FinderScheduler {
     private final FinderMailingServiceImpl finderMailingService;
 
     public String createMailMessage(OfferSearchCriteriaParams searchCriteria) {
-        var results = searchFacade.getOffers(searchCriteria);
+        var results = searchFacade.getDistinctOffers(searchCriteria);
         return toMailMessage(createMailTemplate(), results);
     }
 
@@ -31,12 +31,12 @@ public class FinderScheduler {
         var to = "pawelx777x@gmail.com";
         var subject = "Finder results";
         finderMailingService.sendSimpleMessage(to, subject, mailMessage);
-        log.info("Finder mail sent to: %s.".formatted(to));
+        log.info("Finder: Mail sent to: %s.".formatted(to));
     }
 
 
     private static String createMailTemplate() {
-        return "Item %s:\n" +
+        return "Result %s:\n" +
                 "Id: %s\n" +
                 "Name: %s\n" +
                 "Format: %s\n" +
@@ -45,6 +45,9 @@ public class FinderScheduler {
     }
 
     private static String toMailMessage(String resultTemplate, List<ItemDto> results) {
+        if (results.isEmpty() || results == null) {
+            return null;
+        }
         var line0 = resultTemplate.formatted(0,
                 results.get(0).getId(),
                 results.get(0).getName(),
